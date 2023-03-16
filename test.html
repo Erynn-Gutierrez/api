@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+	<title>Cat Fact API</title>
+	<meta charset="utf-8"/>
+    <style>
+        body { 
+            background-color: cadetblue;
+            color: linen;
+            text-align: center;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+        #fact{
+            margin-left: auto;
+            margin-right: auto;
+            width: 30em;
+            line-height: 1.5em;
+            font-size: 16pt;
+        }
+        button {
+            background-color:coral;
+            color:white;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            border: none;
+            padding: 7px 22px;
+            font-size: 13pt;
+            cursor: pointer;
+        }
+        #debrief {
+            font-size: 13pt;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5em;
+            width: 40em;
+        }
+    </style>
+	<script>
+		function getCatFact() {
+			/* Step 1: Make instance of request object...
+			...to make HTTP request after page is loaded*/
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+ 
+			// Step 2: Set the URL for the AJAX request to be the JSON file
+ 
+		request.open("GET", "https://meowfacts.herokuapp.com/", true)
+
+			console.log("2 - opened request file");
+ 
+			// Step 3: set up event handler/callback
+
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+ 
+				if (request.readyState == 4 && request.status == 200) {
+
+					// Step 5: wait for done + success
+                    console.log("5 - response received");
+                    result = request.responseText;
+                    data = JSON.parse(result);
+
+                    const fact = data.data;
+                    const factElement = document.getElementById("fact");
+                    factElement.innerHTML = fact;
+					
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+			}
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 - Request sent");
+		}
+	</script>
+</head>
+
+
+    <div id="data">
+        <h1>Cat Fact Generator</h1>
+        <button onclick="getCatFact()">Generate a Fact</button>
+        <p id="fact"></p>
+    </div>
+    <div id="debrief">
+        <p>This API is from the whiterabbit team, specifically their 
+            <a href="https://github.com/wh-iterabb-it/meowfacts" target="_blank"> 
+            meowfacts repository</a>.</p>
+        <p>The meowfacts API returns a random fact about cats on a GET request, 
+            which is the only option I used for this API request.
+        </p>
+        <p>One realistic and helpful application for this API would be for social
+           media and/or marketing purposes.&nbsp;An API like this would be helpful
+           for purposes of engagement, especially when employed in the context 
+           of pet businesses, such as pet stores, pet food brands, as a way to
+           engage with customers and promote their products.&nbsp;Another application
+           for this API could be for education purposes.&nbsp;A cat fact generator 
+           such as this could be used as an educational tool for people who are 
+           interested in learning more about cats, their behaviors, history, etc.
+        </p>
+    </div>
+</body>
+</html>
